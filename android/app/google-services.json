@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "718629896603",
+    "project_id": "mylez-weatherly-app",
+    "storage_bucket": "mylez-weatherly-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:718629896603:android:d5a0a0a1e7d1d5e43da13e",
+        "android_client_info": {
+          "package_name": "com.example.weatherly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "718629896603-2t0en1a9nltm0hpe5b836vitgq16sk7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVbr23mM5Z3xFL6X4a-2KXDSPmDkNg4Dw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "718629896603-2t0en1a9nltm0hpe5b836vitgq16sk7p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
