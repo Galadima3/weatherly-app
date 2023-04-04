@@ -34,7 +34,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return const HomePage();
+                  return HomePage();
                 },
               ),
             ),
