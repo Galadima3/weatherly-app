@@ -9,7 +9,7 @@ class AuthRepository {
 
   //getters
   User? get userDetails => _auth.currentUser;
-  Stream<User?> get authStateChange => _auth.idTokenChanges();
+  Stream<User?> get authStateChange => _auth.userChanges();
 
   //sign-in method
   Future<User?> signInWithEmailAndPassword(
@@ -41,7 +41,7 @@ class AuthRepository {
         password: password,
       );
       log('Sign up successful');
-      _auth.currentUser!.updateDisplayName(name);
+
       return result.user;
     } on FirebaseAuthException catch (e) {
       throw AuthException(e.message ?? '');
@@ -70,7 +70,7 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository(FirebaseAuth.instance);
 });
 
-final authStateProvider = StreamProvider<User?>((ref) {
+final authStateProvider = StreamProvider((ref) {
   return ref.read(authRepositoryProvider).authStateChange;
 });
 

@@ -13,12 +13,18 @@ class AuthChecker extends ConsumerWidget {
     final authState = ref.watch(authStateProvider);
     return authState.when(
       data: (user) {
-        if(user != null) return const HomePage();
+        if (user != null){
+          return const HomePage();
+        }
         return const RegisterScreen();
       },
       error: (e, trace) => const LogInScreen(),
-      loading: () => const Center(
-        child: CircularProgressIndicator(),
+      loading: () => const SafeArea(
+        child: Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
       ),
     );
   }
