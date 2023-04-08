@@ -36,9 +36,10 @@ class WeatherNetworking {
 
   Future<WeatherModelX> getWeatherData() async {
     final position = await getLocationPermission();
-    print("${position.latitude}");
+
     try {
-      var uri = 'https://api.weatherapi.com/v1/forecast.json?key=29f397a4d03f4fc8b4e122621230404&q=${position.longitude},${position.longitude}&days=7&aqi=no&alerts=no';
+      var uri =
+          'https://api.weatherapi.com/v1/forecast.json?key=29f397a4d03f4fc8b4e122621230404&q=${position.longitude},${position.longitude}&days=7&aqi=no&alerts=no';
       // var uri =
       //     'https://api.openweathermap.org/data/2.5/weather?lat=${position.latitude}&lon=${position.longitude}&appid=18966628b08a83615fea91c56f19fb3c&units=metric';
       var url = Uri.parse(uri);
@@ -57,7 +58,6 @@ class WeatherNetworking {
       var url = Uri.parse(uri);
       var response = await get(url);
       return CityWeatherModel.fromJson(jsonDecode(response.body));
-
     } on Exception catch (e) {
       throw (e.toString());
     }
@@ -72,6 +72,7 @@ final weatherDetailsProvider = FutureProvider((ref) async {
   return ref.watch(weatherProvider).getWeatherData();
 });
 
-final cityWeatherDetailsProvider = FutureProvider.family<CityWeatherModel, String>((ref, cityName) {
+final cityWeatherDetailsProvider =
+    FutureProvider.family<CityWeatherModel, String>((ref, cityName) {
   return ref.watch(weatherProvider).getCityWeather(cityName);
 });

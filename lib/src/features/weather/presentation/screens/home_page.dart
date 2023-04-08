@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weatherly/src/constants.dart';
 import 'package:weatherly/src/features/auth/data/auth_repository.dart';
 import 'package:weatherly/src/features/weather/data/networking.dart';
 import 'package:weatherly/src/features/weather/presentation/shared_widgets/pseudo_loading_screen.dart';
 import 'package:weatherly/src/features/weather/presentation/shared_widgets/weather_forecast_tile.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -20,6 +22,13 @@ class HomePage extends ConsumerWidget {
             backgroundColor: const Color(0xFF010409),
             extendBodyBehindAppBar: true,
             appBar: AppBar(
+                title: Row(
+                  children: [
+                    const Icon(Icons.location_pin),
+                    Text(weather.location.name)
+                  ],
+                ),
+                centerTitle: true,
                 elevation: 0,
                 backgroundColor: Colors.transparent,
                 actions: [
@@ -43,7 +52,6 @@ class HomePage extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 2.5),
                   child: Container(
-                    //color: Color.fromARGB(255, 30, 105, 226),
                     decoration: const BoxDecoration(
                         color: Colors.lightBlue,
                         borderRadius: BorderRadius.only(
@@ -55,12 +63,54 @@ class HomePage extends ConsumerWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(weather.location.name),
-                        Text(weather.current.tempC.toString()),
-                        // Text(weather.main.humidity.toString()),
-                        const Center(
-                          child: Text('Success!'),
+                        SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: Image.network(
+                                'http:${weather.current.condition.icon}')),
+                        Text(
+                          '${weather.current.tempC.toStringAsFixed(0)}°',
+                          style: const TextStyle(
+                              fontSize: 80, color: Colors.white),
                         ),
+                        Text(weather.current.condition.text.name.capitalize()),
+                        Text(DateFormat.MMMMEEEEd().format(DateTime.now())),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              //column 1
+                              Column(
+                                children: [
+                                  const Icon(Icons.air, color: Colors.white,),
+                                  Text(
+                                      '${weather.current.gustKph.toStringAsFixed(0)}km/h', style: kTextStyle1,),
+                                  const Text('Wind', style: kTextStyle,)
+                                ],
+                              ),
+                              //column 2
+                              Column(
+                                children: [
+                                  const Icon(Icons.water_drop, color: Colors.white,),
+                                  Text('${weather.current.humidity}%', style: kTextStyle1,),
+                                  const Text('Humidity', style: kTextStyle,)
+                                ],
+                              ),
+
+                              //column 3
+                              Column(
+                                children: [
+                                  const Icon(Icons.storm, color: Colors.white,),
+                                  Text(
+                                      '${weather.forecast.forecastday[0].day.dailyChanceOfRain}%', style: kTextStyle1,),
+                                  const Text('Chance of Rain', style: kTextStyle,)
+                                ],
+                              )
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -126,4 +176,11 @@ class HomePage extends ConsumerWidget {
               ),
             ));
   }
+}
+
+
+extension StringExtension on String {
+    String capitalize() {
+      return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
+    }
 }
