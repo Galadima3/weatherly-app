@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weatherly/src/constants.dart';
 import 'package:weatherly/src/features/auth/data/auth_repository.dart';
 import 'package:weatherly/src/features/weather/data/networking.dart';
+import 'package:weatherly/src/features/search/presentation/screens/search_page.dart';
 import 'package:weatherly/src/features/weather/presentation/shared_widgets/pseudo_loading_screen.dart';
 import 'package:weatherly/src/features/weather/presentation/shared_widgets/weather_forecast_tile.dart';
 import 'package:intl/intl.dart';
@@ -40,7 +41,11 @@ class HomePage extends ConsumerWidget {
                         color: Colors.white,
                       )),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return SearchPage();
+                      },));
+                    },
                     icon: const Icon(
                       Icons.search,
                       color: Colors.white,
@@ -63,18 +68,19 @@ class HomePage extends ConsumerWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Image.network(
-                                'http:${weather.current.condition.icon}')),
+                        Image.network(
+                            'http:${weather.current.condition.icon}',height: 100,
+                            width: 100,),
                         Text(
                           '${weather.current.tempC.toStringAsFixed(0)}°',
                           style: const TextStyle(
                               fontSize: 80, color: Colors.white),
                         ),
-                        Text(weather.current.condition.text.name.capitalize()),
-                        Text(DateFormat.MMMMEEEEd().format(DateTime.now())),
+                        Text(
+                          weather.current.condition.text.name.capitalize(),
+                          style: kTextStyle2,
+                        ),
+                        Text(DateFormat.MMMMEEEEd().format(DateTime.now()),style: kTextStyle3,),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Row(
@@ -84,28 +90,53 @@ class HomePage extends ConsumerWidget {
                               //column 1
                               Column(
                                 children: [
-                                  const Icon(Icons.air, color: Colors.white,),
+                                  const Icon(
+                                    Icons.air,
+                                    color: Colors.white,
+                                  ),
                                   Text(
-                                      '${weather.current.gustKph.toStringAsFixed(0)}km/h', style: kTextStyle1,),
-                                  const Text('Wind', style: kTextStyle,)
+                                    '${weather.current.gustKph.toStringAsFixed(0)}km/h',
+                                    style: kTextStyle1,
+                                  ),
+                                  const Text(
+                                    'Wind',
+                                    style: kTextStyle,
+                                  )
                                 ],
                               ),
                               //column 2
                               Column(
                                 children: [
-                                  const Icon(Icons.water_drop, color: Colors.white,),
-                                  Text('${weather.current.humidity}%', style: kTextStyle1,),
-                                  const Text('Humidity', style: kTextStyle,)
+                                  const Icon(
+                                    Icons.water_drop,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    '${weather.current.humidity}%',
+                                    style: kTextStyle1,
+                                  ),
+                                  const Text(
+                                    'Humidity',
+                                    style: kTextStyle,
+                                  )
                                 ],
                               ),
 
                               //column 3
                               Column(
                                 children: [
-                                  const Icon(Icons.storm, color: Colors.white,),
+                                  const Icon(
+                                    Icons.storm,
+                                    color: Colors.white,
+                                  ),
                                   Text(
-                                      '${weather.forecast.forecastday[0].day.dailyChanceOfRain}%', style: kTextStyle1,),
-                                  const Text('Chance of Rain', style: kTextStyle,)
+                                    '${weather.forecast.forecastday[0].day.dailyChanceOfRain}%',
+                                    style: kTextStyle1,
+                                  ),
+                                  const Text(
+                                    'Chance of Rain',
+                                    style: kTextStyle,
+                                  )
                                 ],
                               )
                             ],
@@ -178,9 +209,8 @@ class HomePage extends ConsumerWidget {
   }
 }
 
-
 extension StringExtension on String {
-    String capitalize() {
-      return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
-    }
+  String capitalize() {
+    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  }
 }

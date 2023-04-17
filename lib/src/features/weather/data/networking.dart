@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
@@ -51,13 +52,14 @@ class WeatherNetworking {
     }
   }
 
-  Future<CityWeatherModel> getCityWeather(String cityName) async {
+  Future<SearchWeatherModel> getCityWeather(String cityName) async {
     try {
       var uri =
           'https://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=18966628b08a83615fea91c56f19fb3c&units=metric';
       var url = Uri.parse(uri);
       var response = await get(url);
-      return CityWeatherModel.fromJson(jsonDecode(response.body));
+      log(response.body);
+      return SearchWeatherModel.fromJson(jsonDecode(response.body));
     } on Exception catch (e) {
       throw (e.toString());
     }
@@ -73,6 +75,6 @@ final weatherDetailsProvider = FutureProvider((ref) async {
 });
 
 final cityWeatherDetailsProvider =
-    FutureProvider.family<CityWeatherModel, String>((ref, cityName) {
+    FutureProvider.family<SearchWeatherModel, String>((ref, cityName) {
   return ref.watch(weatherProvider).getCityWeather(cityName);
 });
